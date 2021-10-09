@@ -27,8 +27,8 @@ router.use((req, res, next) => {
 })
 
 /** Parse the body of the request */
-router.use(express.urlencoded({ extended: true }))
 router.use(express.json())
+router.use(express.urlencoded({ extended: true }))
 
 
 /** Rules of our API */

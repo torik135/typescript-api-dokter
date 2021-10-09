@@ -35,7 +35,7 @@ const register = (req: Request, res: Response, next: NextFunction) => {
             .then(connection => {
                 Query<IMySQLResult>(connection, query)
                     .then((result) => {
-                        logging.info(NAMESPACE, `user ${result.insertId} created`)
+                        logging.info(NAMESPACE, `user ${result.insertId} telah dibuat`)
 
                         return res.status(201).json(result)
                     })
@@ -61,6 +61,8 @@ const register = (req: Request, res: Response, next: NextFunction) => {
 
 const login = (req: Request, res: Response, next: NextFunction) => {
     let { username, password } = req.body
+    console.log(typeof (username));
+
 
     let query = `SELECT * FROM tb_user WHERE username = '${username}'`
 
@@ -82,7 +84,7 @@ const login = (req: Request, res: Response, next: NextFunction) => {
                                     })
                                 } else if (token) {
                                     return res.status(200).json({
-                                        message: 'Sign JWT SUCCESSFUL!',
+                                        message: 'Login & Sign JWT Sukses!',
                                         token,
                                         user: users[0]
                                     })
