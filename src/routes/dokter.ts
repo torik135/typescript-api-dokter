@@ -5,8 +5,8 @@ const NAMESPACE = 'CEK SERVER - ROUTES'
 
 const router = express()
 
-router.get('/get/dokter', controller.getAllDokter)
-router.post('/detail/dokter', controller.getDokter)
+// router.get('/get/dokter', controller.getAllDokter)
+// router.post('/detail/dokter', controller.getDokter)
 router.post('/create/dokter', controller.createDokter)
 
 export = router
