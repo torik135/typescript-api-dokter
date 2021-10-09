@@ -9,6 +9,7 @@ const router = express()
 router.get('/validate', extractJWT, controller.validateToken)
 router.post('/register', controller.register)
 router.post('/login', controller.login)
-router.get('/get/all', controller.getAllUser)
+router.get('/get/user', controller.getAllUser)
+router.post('/create/janji', extractJWT, controller.Janji)
 
 export = router

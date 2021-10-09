@@ -5,6 +5,7 @@ import signJWT from '../functions/signJWT'
 import { Connect, Query } from '../config/mysql'
 import IUser from '../interfaces/user'
 import IMySQLResult from '../interfaces/results'
+import IJanji from '../interfaces/janji'
 
 const NAMESPACE = "USER - CONTROLLER"
 
@@ -57,8 +58,6 @@ const register = (req: Request, res: Response, next: NextFunction) => {
             })
     })
 }
-
-
 
 const login = (req: Request, res: Response, next: NextFunction) => {
     let { username, password } = req.body
@@ -143,6 +142,43 @@ const getAllUser = (req: Request, res: Response, next: NextFunction) => {
             })
         })
 }
+
+const Janji = (req: Request, res: Response, next: NextFunction) => {
+    let { nama_user, nama_dokter, tgl } = req.body
+
+    let query = `INSERT INTO tb_janji (nama_user, nama_dokter, tgl) VALUES ("${nama_user}", "${nama_dokter}", "${tgl}")`
+
+    Connect()
+        .then((connection) => {
+            Query<IMySQLResult>(connection, query)
+                .then((result) => {
+                    return res.status(200).json({
+                        message: `Janji ${result.insertId} telah dibuat`,
+                        result,
+                    })
+                })
+                .catch((error) => {
+                    logging.error(NAMESPACE, error.message, error)
+
+                    return res.status(500).json({
+                        message: error.message,
+                        error
+                    })
+                })
+                .finally(() => {
+                    connection.end()
+                })
+        })
+        .catch((error) => {
+            logging.error(NAMESPACE, error.message, error)
+
+            return res.status(500).json({
+                message: error.message,
+                error
+            })
+        })
+}
+
 export default {
-    validateToken, register, login, getAllUser
+    validateToken, register, login, getAllUser, Janji
 }
