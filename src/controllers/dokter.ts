@@ -13,10 +13,11 @@ const getAllDokter = (req: Request, res: Response, next: NextFunction) => {
 
 	Connect()
 		.then((connection) => {
-			Query(connection, query)
-				.then((results) => {
+			Query<IDokter[]>(connection, query)
+				.then((dokter) => {
 					return res.status(200).json({
-						results
+						dokter,
+						count: dokter.length
 					})
 				})
 				.catch((error) => {
@@ -122,8 +123,48 @@ const createDokter = (req: Request, res: Response, next: NextFunction) => {
 		})
 }
 
+const cariDokter = (req: Request, res: Response, next: NextFunction) => {
+	logging.info(NAMESPACE, 'CARI DOKTER CONTROLLER')
+
+	let { nama } = req.body
+
+	let query = `SELECT * FROM tb_dokter WHERE nama LIKE '%${nama}%'`
+
+
+	Connect()
+		.then((connection) => {
+			Query<IDokter[]>(connection, query)
+				.then((dokter) => {
+					return res.status(200).json({
+						dokter,
+						count: dokter.length,
+					})
+				})
+				.catch((error) => {
+					logging.error(NAMESPACE, error.message, error)
+
+					return res.status(500).json({
+						message: error.message,
+						error
+					})
+				})
+				.finally(() => {
+					connection.end()
+				})
+		})
+		.catch((error) => {
+			logging.error(NAMESPACE, error.message, error)
+
+			return res.status(500).json({
+				message: error.message,
+				error
+			})
+		})
+}
+
 export default {
 	getAllDokter,
 	getDokter,
-	createDokter
+	createDokter,
+	cariDokter,
 }
