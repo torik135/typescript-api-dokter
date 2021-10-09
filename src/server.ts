@@ -5,6 +5,8 @@ import config from './config/config'
 
 // routes
 import cekserver from './routes/cek'
+import DokterRoutes from './routes/dokter'
+import UserRoutes from './routes/user'
 
 const NAMESPACE = 'SERVER'
 const router = express()
@@ -20,7 +22,7 @@ router.use((req, res, next) => {
         /** Log the res */
         logging.info(NAMESPACE, `METHOD: [${req.method}] - URL: [${req.url}] - STATUS: [${res.statusCode}] - IP: [${req.socket.remoteAddress}]`)
     })
-    
+
     next()
 })
 
@@ -44,6 +46,9 @@ router.use((req, res, next) => {
 
 /** Routes go here */
 router.use('/server', cekserver)
+router.use('/api/dokter', DokterRoutes)
+router.use('/api/user', UserRoutes)
+
 
 /** Error handling */
 router.use((req, res, next) => {
