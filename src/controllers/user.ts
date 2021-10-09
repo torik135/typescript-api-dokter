@@ -181,6 +181,47 @@ const Janji = (req: Request, res: Response, next: NextFunction) => {
         })
 }
 
+const deleteJanji = (req: Request, res: Response, next: NextFunction) => {
+    let { id } = req.body
+
+    let query = `DELETE FROM tb_janji WHERE id = '${id}'`
+
+    Connect()
+        .then((connection) => {
+            Query<IMySQLResult>(connection, query)
+                .then((result) => {
+                    return res.status(200).json({
+                        message: `${result.affectedRows} janji telah dihapus`,
+                        result,
+                    })
+                })
+                .catch((error) => {
+                    logging.error(NAMESPACE, error.message, error)
+
+                    return res.status(500).json({
+                        message: error.message,
+                        error
+                    })
+                })
+                .finally(() => {
+                    connection.end()
+                })
+        })
+        .catch((error) => {
+            logging.error(NAMESPACE, error.message, error)
+
+            return res.status(500).json({
+                message: error.message,
+                error
+            })
+        })
+}
+
 export default {
-    validateToken, register, login, getAllUser, Janji
+    validateToken,
+    register,
+    login,
+    getAllUser,
+    Janji,
+    deleteJanji,
 }
