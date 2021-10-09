@@ -2,10 +2,10 @@
   "name": "typescript-appointment-dokter",
   "version": "1.0.0",
   "description": "",
-  "main": "source/server.ts",
+  "main": "src/server.ts",
   "scripts": {
-    "build": "rm -rf build/ && prettier --write source/ && tsc",
-    "start": "nodemon source/server.ts"
+    "build": "rm -rf build/ && prettier --write src/ && tsc",
+    "start": "nodemon src/server.ts"
   },
   "keywords": [],
   "author": "torik135",
